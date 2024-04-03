@@ -1,0 +1,89 @@
+#include "RacingGameClass.h"
+#include <iostream>
+
+
+//Input
+//Draw car according
+//Draw enemy car / obstacles
+//collision / gameover 
+
+RacingGame::RacingGame()
+{
+	pGrid = new Grid(19,20,20,5, ' ');
+	pConsole = new Console;
+}
+
+RacingGame::~RacingGame()
+{
+	delete pGrid;
+	delete pConsole;
+	pGrid = nullptr;
+	pConsole = nullptr;
+}
+
+
+
+void RacingGame::InitalizeGame()
+{
+	//#      |      |      #
+	//#      |      |      #
+	//#      |      |      #
+	//#      |      |      #
+
+	//lane1 [1,5]
+	//lane2 [7,12]
+	//lane3 [14,18]
+
+
+	for (int i = 0; i < pGrid->GetGridHeight();i++)
+	{
+		for (int j = 0; j < pGrid->GetGridWidth(); j++)
+		{
+			if (j == 0 || j == pGrid->GetGridWidth() - 1)
+				pGrid->DrawAtPixel(i, j, '#');
+
+			if (j == 6 || j == 13)
+				pGrid->DrawAtPixel(i, j, '|');
+		}
+	}
+
+	//draw car
+	
+	player_car.startX = pGrid->GetGridHeight() - 4;
+	player_car.startY = 1;
+
+	//####
+	// ##
+	//####
+	// ##
+
+	DrawCar(player_car);
+	
+	pGrid->Draw();
+
+}
+
+void RacingGame::DrawCar(Car car)
+{
+	for (int i = car.startX; i < 4 + car.startX; i++)
+	{
+		for (int j = car.startY; j < 4 + car.startY; j++)
+		{
+			if (i == car.startX + 1 || i == car.startX + 3)
+				pGrid->DrawAtPixel(i, j, '*');
+
+			else if (j == car.startY + 1 || j == car.startY + 2)
+				pGrid->DrawAtPixel(i, j, '*');
+
+			else
+				pGrid->DrawAtPixel(i, j, ' ');
+		}
+	}
+}
+
+void RacingGame::GameLoop()
+{
+	
+	std::cout << "GAME LOOP RACING GAME!!!" << std::endl;	
+}
+
